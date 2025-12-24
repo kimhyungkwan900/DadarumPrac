@@ -14,33 +14,25 @@ public class DialogueCharacterManager : MonoBehaviour
 
     public void HandleLine(DialogueLine line)
     {
-        // 나레이션 라인
         if (line.character == null) return;
 
-        // 없으면 생성
         bool createdNow = false;
-        if (!activeCharacters.TryGetValue(line.character, out var animator) || animator == null)
+        if (!activeCharacters.TryGetValue(line.character, out var ui) || ui == null)
         {
-            animator = CreateNewCharacter(line.character);
-            createdNow = animator != null;
+            ui = CreateNewCharacter(line.character);
+            createdNow = ui != null;
         }
 
-        if (animator == null) return;
+        if (ui == null) return;
 
-        // presence 처리 (존재/등장/퇴장)
-        HandlePresence(line, animator, createdNow);
+        HandlePresence(line, ui, createdNow);
 
-        // presence=Disappear이면 이후 연출은 의미가 없을 수 있으니 return (정책)
         if (line.presence == CharacterPresence.Disappear)
             return;
 
-        // visuals 처리 (표정/포커스/쉐이크)
-        HandleVisuals(line, animator);
+        HandleVisuals(line, ui);
 
-        // 라인 이벤트(선택)
         line.onLineStart?.Invoke();
-        // onLineEnd는 보통 NextLine 직전/후나 EndDialogue에 연결하는 게 자연스럽지만,
-        // 현재 구조에서는 호출 위치를 프로젝트 정책에 맞게 결정하면 됩니다.
     }
 
     private DialogueCharacterUI CreateNewCharacter(CharacterProfileSO profile)
