@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6279c792ffeb675409d3339bb04b7b86, type: 3}
+  m_Name: Dynastid
+  m_EditorClassIdentifier: 
+  cardName: "\uC7A5\uC218\uD48D\uB385\uC774"
+  artwork: {fileID: -8615963577113726579, guid: 51c50284fa1838343b302e184414cb2d, type: 3}
+  attack: 3
+  health: 4
+  specialAbility: {fileID: 0}

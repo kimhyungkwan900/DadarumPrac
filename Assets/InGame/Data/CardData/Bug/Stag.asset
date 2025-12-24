@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6279c792ffeb675409d3339bb04b7b86, type: 3}
+  m_Name: Stag
+  m_EditorClassIdentifier: 
+  cardName: "\uC0AC\uC2B4\uBC8C\uB808"
+  artwork: {fileID: 7348724457772668725, guid: 7c325c1611974d2498cf46eeaf3ab2a0, type: 3}
+  attack: 4
+  health: 4
+  specialAbility: {fileID: 0}
