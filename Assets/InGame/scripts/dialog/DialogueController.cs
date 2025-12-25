@@ -27,12 +27,20 @@ public class DialogueController : MonoBehaviour, IDialogueController
         view?.Initialize();
     }
 
-    public void BeginDialogue(DialogueSO dialogue, Action onComplete = null)
+    // 대화 시작
+    public bool BeginDialogue(DialogueSO dialogue, Action onComplete = null)
     {
+        // 이미 실행 중이면 실패
+        if (IsDialogueRunning)
+        {
+            Debug.LogWarning("DialogueController: 이미 대화가 실행 중입니다.");
+            return false;
+        }
+
         if (dialogue == null || dialogue.lines == null || dialogue.lines.Length == 0)
         {
             Debug.LogWarning("DialogueController: 유효하지 않은 DialogueSO");
-            return;
+            return false;
         }
 
         this.lines = dialogue.lines;
@@ -56,36 +64,58 @@ public class DialogueController : MonoBehaviour, IDialogueController
 
         if (dialogue.autoStart)
             NextLine();
+
+        return true;
     }
 
+    // 다음 대사 처리
     public void AdvanceDialogue()
     {
         if (!IsDialogueRunning) return;
 
         if (IsTyping)
         {
-            view.CompleteTypingImmediately();
+            view?.CompleteTypingImmediately();
             return;
         }
 
         if (currentIndex + 1 < lines.Length)
             NextLine();
         else
-            EndDialogue();
+            EndDialogueInternal();
     }
 
+    // 강제로 대화 종료
+    public void ForceEndDialogue()
+    {
+        if (!IsDialogueRunning) return;
+        EndDialogueInternal();
+    }
+
+    // 다음 대사 처리
     private void NextLine()
     {
         currentIndex++;
+        
+        // 범위 체크
+        if (currentIndex < 0 || currentIndex >= lines.Length)
+        {
+            Debug.LogWarning($"DialogueController: 인덱스 범위 초과 ({currentIndex}/{lines.Length})");
+            EndDialogueInternal();
+            return;
+        }
+
         DialogueLine currentLine = lines[currentIndex];
 
         characterManager?.HandleLine(currentLine);
         view?.ShowLine(currentLine);
     }
 
-    private void EndDialogue()
+    // 대화 종료
+    private void EndDialogueInternal()
     {
         IsDialogueRunning = false;
+
         view?.HideAll();
         characterManager?.ClearCharacters();
 
