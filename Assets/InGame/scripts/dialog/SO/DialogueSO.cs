@@ -5,13 +5,13 @@ using UnityEngine;
     menuName = "Dialogue/Dialogue Script")]
 public class DialogueSO : ScriptableObject
 {
-    [Header("±âº»¼³Á¤")]
+    [Header("ê¸°ë³¸ì„¤ì •")]
     public bool autoStart = true;
 
-    [Header("½ÃÀÛ Ä³¸¯ÅÍ")]
+    [Header("ì‹œì‘ ìºë¦­í„°")]
     public InitialDialogueCharacter[] initialCharacters;
 
-    [Header("´ëÈ­¹®")]
+    [Header("ëŒ€ì‚¬")]
     public DialogueLine[] lines;
 
     [TextArea(2, 4)]

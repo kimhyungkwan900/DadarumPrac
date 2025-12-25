@@ -8,6 +8,7 @@ public class DialogueCharacterUI : MonoBehaviour
     [SerializeField] private CanvasGroup canvasGroup;
 
     private CharacterProfileSO profile;
+    public CharacterPosition Position { get; private set; } = CharacterPosition.Center;
 
     private void Awake()
     {
@@ -18,7 +19,7 @@ public class DialogueCharacterUI : MonoBehaviour
             canvasGroup = GetComponent<CanvasGroup>();
 
         if (image == null)
-            Debug.LogError($"{name}: ÀÌ¹ÌÁö Reference ¾øÀ½");
+            Debug.LogError($"{name}: ì´ë¯¸ì§€ Reference ì—†ìŒ");
     }
 
     public void Initialize(CharacterProfileSO profile)
@@ -44,24 +45,35 @@ public class DialogueCharacterUI : MonoBehaviour
             : new Color(0.9f, 0.9f, 0.9f, 1f);
     }
 
-    #region ¾Ö´Ï¸ŞÀÌ¼Ç ¿µ¿ª
+    public void SetPosition(CharacterPosition position)
+    {
+        Position = position;
+    }
+
+    #region ì• ë‹ˆë©”ì´ì…˜ ê´€ë ¨ ë©”ì„œë“œ
+
     public void PlayAppear()
     {
-        if (canvasGroup != null)
-            canvasGroup.alpha = 1f;
+        // TODO: ì• ë‹ˆë©”ì´ì…˜ ì¶”ê°€
     }
 
-    public void PlayDisappear(Action onComplete)
+    public void PlayDisappear()
     {
-        if (canvasGroup != null)
-            canvasGroup.alpha = 0f;
-
-        onComplete?.Invoke();
+        // TODO: ì• ë‹ˆë©”ì´ì…˜ ì¶”ê°€
     }
 
-    public void PlayShake()
-    {
-        // ÇÊ¿ä ½Ã DOTween / LeanTween
+    #endregion
+
+    #region UI ê´€ë ¨
+
+    public void Show(){
+        gameObject.SetActive(true);
+        canvasGroup.alpha = 1f;
+    }
+
+    public void Hide(){
+        gameObject.SetActive(false);
+        canvasGroup.alpha = 0f;
     }
     #endregion
 }

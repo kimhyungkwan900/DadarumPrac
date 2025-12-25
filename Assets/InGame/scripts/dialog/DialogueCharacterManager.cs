@@ -16,16 +16,12 @@ public class DialogueCharacterManager : MonoBehaviour
     {
         if (line.character == null) return;
 
-        bool createdNow = false;
-        if (!activeCharacters.TryGetValue(line.character, out var ui) || ui == null)
-        {
+        if(!activeCharacters.TryGetValue(line.character, out var ui) || ui == null){
             ui = CreateNewCharacter(line.character);
-            createdNow = ui != null;
         }
-
         if (ui == null) return;
 
-        HandlePresence(line, ui, createdNow);
+        HandlePresence(line, ui);
 
         if (line.presence == CharacterPresence.Disappear)
             return;
@@ -54,31 +50,23 @@ public class DialogueCharacterManager : MonoBehaviour
         return ui;
     }
 
-    private void HandlePresence(DialogueLine line, DialogueCharacterUI ui, bool createdNow)
+    private void HandlePresence(DialogueLine line, DialogueCharacterUI ui)
     {
-        switch (line.presence)
-        {
+        switch (line.presence){
             case CharacterPresence.Appear:
-                ui.gameObject.SetActive(true);
-                SetPosition(ui, line.position);
-                ui.PlayAppear();
-                break;
+            ui.Show();
+            SetPosition(ui, line.position);
+            break;
 
             case CharacterPresence.Disappear:
-                ui.PlayDisappear(() =>
-                {
-                    Destroy(ui.gameObject);
-                    activeCharacters.Remove(line.character);
-                });
-                break;
+            ui.Hide();
+            break;
 
             case CharacterPresence.Keep:
-                if (createdNow)
-                {
-                    ui.gameObject.SetActive(true);
-                    SetPosition(ui, line.position);
-                }
-                break;
+            if (ui.Position != line.position){
+                SetPosition(ui, line.position);
+            }
+            break;
         }
     }
 
@@ -86,29 +74,44 @@ public class DialogueCharacterManager : MonoBehaviour
     {
         ui.SetExpression(line.expressionKey, line.overrideSprite);
         ui.SetFocus(line.focus);
-
-        if (line.shake)
-            ui.PlayShake();
     }
 
     private void SetPosition(DialogueCharacterUI ui, CharacterPosition pos)
     {
-        RectTransform parent = pos switch
+        // 위치가 변경되지 않으면 이동하지 않음
+        if (ui.Position == pos && ui.transform.parent != null)
+        {
+            RectTransform currentParent = (RectTransform)ui.transform.parent;
+            RectTransform expectedParent = GetSlotTransform(pos);
+            if (currentParent == expectedParent)
+                return;
+        }
+
+        RectTransform parent = GetSlotTransform(pos);
+
+        RectTransform rt = (RectTransform)ui.transform;
+        rt.SetParent(parent, false);
+        rt.anchoredPosition = Vector2.zero;
+        
+        // UI의 위치 정보 업데이트
+        ui.SetPosition(pos);
+    }
+
+    private RectTransform GetSlotTransform(CharacterPosition pos)
+    {
+        return pos switch
         {
             CharacterPosition.Left => leftSlot,
             CharacterPosition.Center => centerSlot,
             CharacterPosition.Right => rightSlot,
             _ => centerSlot
         };
-
-        RectTransform rt = (RectTransform)ui.transform;
-        rt.SetParent(parent, false);
-        rt.anchoredPosition = Vector2.zero;
     }
 
-    // Dialogue 시작 시 기본 캐릭터 스폰(요구사항 3번)
+    // Dialogue 시작 시 기본 캐릭터 스폰
     public void SpawnInitial(CharacterProfileSO character, CharacterPosition position, ExpressionKey expressionKey)
     {
+        // 이미 생성된 캐릭터가 있으면 재사용
         if (!activeCharacters.TryGetValue(character, out var ui) || ui == null)
         {
             ui = CreateNewCharacter(character);
