@@ -14,7 +14,7 @@ public class ChoiceManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    public void ExecuteChoice(Choice choice)
+    public void ExecuteChoice(ChoiceData choice)
     {
         if (choice == null) return;
         if (choice.effects == null) return;

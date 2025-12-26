@@ -1,35 +1,27 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 // 대화 조건 엔트리
 [System.Serializable]
 public class DialogueConditionEntry
 {
-    [Tooltip("대화 스크립트")]
     public DialogueSO dialogue;
-    
-    [Tooltip("대화 조건")]
-    public DialogueCondition condition;
-}
-
-// 대화 조건 타입
-public enum DialogueCondition
-{
-    Default,    // 기본 대화
-    FirstMeet,  // 첫 만남
+    [Tooltip("조건이 비어 있으면 항상 통과 (Default 대화)")]
+    public List<ConditionSO> conditions;
 }
 
 // NPC 대화 트리거 컴포넌트
 public class NPCDialogueTrigger : MonoBehaviour, IDialogueTrigger
 {
     [Header("Dialogue Conditions")]
-    [SerializeField][Tooltip("조건별 대화 목록 (우선순위 순서)")]
+    [SerializeField, Tooltip("위에서 아래 순서로 평가됨")]
     private DialogueConditionEntry[] dialogues;
 
     [Header("Dialogue System")]
-    [SerializeField][Tooltip("대화 컨트롤러 (자동 찾기 가능)")]
+    [SerializeField, Tooltip("대화 컨트롤러 (자동 찾기 가능)")]
     private DialogueController dialogueController;
     
-    [SerializeField][Tooltip("대화 시스템 루트 오브젝트")]
+    [SerializeField, Tooltip("대화 시스템 루트 오브젝트")]
     private GameObject dialogueSystemRoot;
 
     private bool isRunning;
@@ -116,34 +108,11 @@ public class NPCDialogueTrigger : MonoBehaviour, IDialogueTrigger
             if (entry.dialogue == null)
                 continue;
 
-            if (CheckCondition(entry.condition))
-                return entry.dialogue;
-        }
-
-        // fallback: Default
-        foreach (var entry in dialogues)
-        {
-            if (entry.dialogue != null && entry.condition == DialogueCondition.Default)
+            if (AreConditionsMet(entry.conditions))
                 return entry.dialogue;
         }
 
         return null;
-    }
-
-    private bool CheckCondition(DialogueCondition condition)
-    {
-        switch (condition)
-        {
-            case DialogueCondition.FirstMeet:
-                // TODO: SaveData 연동
-                return true;
-
-            case DialogueCondition.Default:
-                return true;
-
-            default:
-                return false;
-        }
     }
 
     // 강제로 대화 종료
@@ -158,7 +127,26 @@ public class NPCDialogueTrigger : MonoBehaviour, IDialogueTrigger
             RollbackDialogue();
     }
 
-    
+    private bool AreConditionsMet(List<ConditionSO> conditions)
+    {
+        // Default 대화
+        if (conditions == null || conditions.Count == 0)
+            return true;
+
+        foreach (var cond in conditions)
+        {
+            if (cond == null)
+            {
+                Debug.LogWarning($"{name}: Null Condition 발견", this);
+                continue;
+            }
+
+            if (!cond.IsMet())
+                return false;
+        }
+
+        return true;
+    }
     private void OnDestroy()
     {
         if (isRunning)
