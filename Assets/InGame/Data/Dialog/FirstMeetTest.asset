@@ -36,6 +36,7 @@ MonoBehaviour:
     onLineEnd:
       m_PersistentCalls:
         m_Calls: []
+    onLineEndEffects: []
   - character: {fileID: 11400000, guid: 99304516249c81145b984eaebc4a82e6, type: 2}
     overrideName: 
     presence: 0
@@ -51,4 +52,6 @@ MonoBehaviour:
     onLineEnd:
       m_PersistentCalls:
         m_Calls: []
+    onLineEndEffects:
+    - {fileID: 11400000, guid: 20801f1c597df85449e4a4dfa0e1027c, type: 2}
   description: "\uCCAB\uB9CC\uB0A8 \uD14C\uC2A4\uD2B8\uC6A9\uC785\uB2C8\uB2E4."

@@ -79,6 +79,11 @@ public class DialogueController : MonoBehaviour, IDialogueController
             return;
         }
 
+        if (currentIndex >= 0 && currentIndex < lines.Length)
+        {
+            InvokeLineEnd(lines[currentIndex]);
+        }
+
         if (currentIndex + 1 < lines.Length)
             NextLine();
         else
@@ -121,5 +126,17 @@ public class DialogueController : MonoBehaviour, IDialogueController
 
         onComplete?.Invoke();
         onComplete = null;
+    }
+
+    // 대사 종료 시 호출
+    private void InvokeLineEnd(DialogueLine line)
+    {
+        line.onLineEnd?.Invoke();
+
+        if (line.onLineEndEffects != null)
+        {
+            foreach (var effect in line.onLineEndEffects)
+                effect?.Apply();
+        }
     }
 }

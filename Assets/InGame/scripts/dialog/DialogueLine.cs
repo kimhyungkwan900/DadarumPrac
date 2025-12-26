@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -33,7 +34,8 @@ public struct DialogueLine
     [TextArea(2, 4)]
     public string dialogue;
 
-    // 이벤트 훅(선택)
+    // 이벤트 훅
     public UnityEvent onLineStart;
     public UnityEvent onLineEnd;
+    public List<EffectSO> onLineEndEffects;
 }
