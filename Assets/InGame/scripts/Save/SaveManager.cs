@@ -48,9 +48,10 @@ public class SaveManager : MonoBehaviour
     public int GetVar(string key) =>
         Data.variables.TryGetValue(key, out var v) ? v : 0;
 
-    public void SetVar(string key, int value) =>
+    public void SetVar(string key, int value){
         Data.variables[key] = value;
-
+        Debug.Log($"SetVar: {key} = {value}");
+    }
     public void AddVar(string key, int delta)
     {
         SetVar(key, GetVar(key) + delta);

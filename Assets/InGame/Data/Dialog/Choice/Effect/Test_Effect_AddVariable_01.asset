@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8280fc8c6cb16a249aea4bfec87f7914, type: 3}
   m_Name: Test_Effect_AddVariable_01
   m_EditorClassIdentifier: 
-  variableKey: 
-  delta: 0
+  variableKey: likeAbility.testNPC
+  delta: 10

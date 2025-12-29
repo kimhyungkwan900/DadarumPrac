@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4986c5628fc59f44b02a270d99841c2, type: 3}
   m_Name: Test_Flag_Firstmeet_01
   m_EditorClassIdentifier: 
-  flagName: flag.met.testNPC
+  flagName: flag.firstmeet.testNPC
   flagValue: 0

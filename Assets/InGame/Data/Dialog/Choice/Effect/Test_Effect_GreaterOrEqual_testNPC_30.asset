@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a1c2452ca72f05e4cb021d0c48c5ab29, type: 3}
-  m_Name: Test_Effect_Firstmeet_01
+  m_Name: Test_Effect_GreaterOrEqual_testNPC_30
   m_EditorClassIdentifier: 
-  flagName: flag.firstmeet.testNPC
+  flagName: Test_Flag_Likeability_testNPC30
   flagValue: 1

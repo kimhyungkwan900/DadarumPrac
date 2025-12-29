@@ -34,8 +34,12 @@ public struct DialogueLine
     [TextArea(2, 4)]
     public string dialogue;
 
-    // 이벤트 훅
-    public UnityEvent onLineStart;
-    public UnityEvent onLineEnd;
+    // Save, 분기설정 등 이벤트효과
+    [Header("Effects")]
+    public List<EffectSO> onLineStartEffects;
     public List<EffectSO> onLineEndEffects;
+
+    // 선택지 그룹
+    [Header("Choice")]
+    public ChoiceGroupSO choiceGroup;
 }

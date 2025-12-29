@@ -28,7 +28,6 @@ public class DialogueCharacterManager : MonoBehaviour
 
         HandleVisuals(line, ui);
 
-        line.onLineStart?.Invoke();
     }
 
     private DialogueCharacterUI CreateNewCharacter(CharacterProfileSO profile)
