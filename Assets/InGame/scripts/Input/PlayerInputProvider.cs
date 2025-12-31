@@ -2,23 +2,37 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+// í”Œë ˆì´ì–´ ì…ë ¥ì„ ë°›ì•„ ì²˜ë¦¬í•˜ëŠ” í´ë˜ìŠ¤ (í‚¤ë³´ë“œ)
 public class PlayerInputProvider : MonoBehaviour, IInputProvider
 {
-    // Enabled: InputManagerº¸´Ù ÇÏÀ§ÀÇ ÇÏµå ÀÔ·Â Â÷´Ü¿ë
+    #region ì»´í¬ë„ŒíŠ¸
+    [Header("í‚¤ ë°”ì¸ë”© (ì¸ìŠ¤í™í„°ìš©)")]
+    [SerializeField] private List<BindingEntry> bindings = new();
+    #endregion
+
+    #region í”„ë¡œí¼í‹°
+    // ì…ë ¥ í™œì„±í™” ì—¬ë¶€ (InputManagerì— ì˜í•´ ì œì–´)
     public bool Enabled { get; set; } = true;
+    
+    // ì •ê·œí™”ëœ ì´ë™ ì…ë ¥ ê°’
     public Vector2 MoveInput { get; private set; }
+    #endregion
 
-    [Header("Å°¹ÙÀÎµå(ÀÎ½ºÆÑÅÍ¿ë)")]
-    [SerializeField] private List<BindingEntry> bindings = new();       // ¼³Á¤µÈ Å° List
+    #region í•„ë“œ
+    // ActionIdì™€ DualKeyë¥¼ ë§¤í•‘í•˜ëŠ” ë”•ì…”ë„ˆë¦¬
+    private Dictionary<ActionId, DualKey> map;
+    #endregion
 
-    private Dictionary<ActionId, DualKey> map;                                // ¾×¼Ç¾ÆÀÌµğ(ÀÔ·Â¸í·É), DualKey(µÎ°³ÀÇ ÀÔ·Â Å°) À¸·Î ÀÌ·ç¾îÁø Dictionary¸Ê
-
-    void Awake()
+    #region ì´ˆê¸°í™”
+    private void Awake()
     {
         ApplyDefaultBindingsIfEmpty();
         BuildMap();
     }
-    void Update()
+    #endregion
+
+    #region ìœ ë‹ˆí‹° ìƒëª…ì£¼ê¸°
+    private void Update()
     {
         if (!Enabled)
         {
@@ -26,75 +40,39 @@ public class PlayerInputProvider : MonoBehaviour, IInputProvider
             return;
         }
 
+        // ì´ë™ ì…ë ¥ ê³„ì‚°
         float x = 0, y = 0;
         if (Get(ActionId.MoveLeft)) x -= 1;
         if (Get(ActionId.MoveRight)) x += 1;
         if (Get(ActionId.MoveDown)) y -= 1;
         if (Get(ActionId.MoveUp)) y += 1;
 
-        // ´ë°¢¼±ÀÌµ¿ Á¤±ÔÈ­
+        // ëŒ€ê°ì„  ì´ë™ ì •ê·œí™”
         MoveInput = new Vector2(x, y).normalized;
-    }
-
-    #region ±âº»°ª ¼³Á¤
-    void ApplyDefaultBindingsIfEmpty()
-    {
-        if (bindings.Count > 0) return;
-
-        // ÀÌµ¿
-        SetKey(ActionId.MoveUp, BindingSlot.Primary, KeyCode.W);
-        SetKey(ActionId.MoveDown, BindingSlot.Primary, KeyCode.S);
-        SetKey(ActionId.MoveLeft, BindingSlot.Primary, KeyCode.A);
-        SetKey(ActionId.MoveRight, BindingSlot.Primary, KeyCode.D);
-
-        // º¸Á¶ ÀÌµ¿
-        SetKey(ActionId.MoveUp, BindingSlot.Secondary, KeyCode.UpArrow);
-        SetKey(ActionId.MoveDown, BindingSlot.Secondary, KeyCode.DownArrow);
-        SetKey(ActionId.MoveLeft, BindingSlot.Secondary, KeyCode.LeftArrow);
-        SetKey(ActionId.MoveRight, BindingSlot.Secondary, KeyCode.RightArrow);
-
-        // »óÈ£ÀÛ¿ë
-        SetKey(ActionId.Interact, BindingSlot.Primary, KeyCode.Space);
-
-        // Dialogue Æ¯¼ö ±â´É
-        SetKey(ActionId.DialogueFastForward, BindingSlot.Primary, KeyCode.LeftControl);
-
-        // ¸Ş´º
-        SetKey(ActionId.Menu, BindingSlot.Primary, KeyCode.Escape);
-    }
-    void BuildMap()
-    {
-        // binding ¸®½ºÆ®¸¦ Dictionary ÇüÅÂ·Î º¯È¯
-        // °°Àº actionÀÌ Áßº¹ÀÌ¸é ¸¶Áö¸· °ªÀ¸·Î µ¤¾î½áÁü
-        map = new Dictionary<ActionId, DualKey>();
-        foreach (var b in bindings)
-            map[b.action] = b.keys;
     }
     #endregion
 
-    #region ÀÔ·Â¹Ş±â && ÀÔ·Â°ª ¼³Á¤
+    #region í‚¤ ë°”ì¸ë”© ê´€ë¦¬
+    // íŠ¹ì • ì•¡ì…˜ì˜ ì…ë ¥ ìƒíƒœ í™•ì¸
     public bool Get(ActionId action)
     {
-        // Enabled °¡ false ¶ó¸é ¹«Á¶°Ç false
-        if (!Enabled) return false;
-        // mapÀÌ null ÀÌ¸é false. map ¿¡¼­ ÇØ´ç actionÀÇ DualKeyÁß ÇÏ³ª¶óµµ ´­¸®¸é true
-        return map != null && map.TryGetValue(action, out var keys) && keys.IsPressed();
+        if (!Enabled || map == null) return false;
+        
+        return map.TryGetValue(action, out var keys) && keys.IsPressed();
     }
-    // mapÀ» °»½ÅÇÏ°í List¸¦ µ¿±âÈ­
+
+    // í‚¤ ë°”ì¸ë”© ì„¤ì •
     public void SetKey(ActionId action, BindingSlot slot, KeyCode key)
     {
-        // mapÀÌ ¾øÀ¸¸é »ı¼º
         if (map == null) BuildMap();
 
-        // map¿¡¼­ ÇØ´ç actionÀÇ ±âÁ¸ ¹ÙÀÎµùÀ» °¡Á®¿À°í, ¾øÀ¸¸é ºó ¹ÙÀÎµù »ı¼º
         if (!map.TryGetValue(action, out var keys))
             keys = new DualKey { primary = KeyCode.None, secondary = KeyCode.None };
 
-        // Primary/Secondary Å° ¼¼ÆÃ
         keys.Set(slot, key);
         map[action] = keys;
 
-        // List ¾÷µ¥ÀÌÆ®
+        // ì¸ìŠ¤í™í„°ìš© List ì—…ë°ì´íŠ¸
         for (int i = 0; i < bindings.Count; i++)
         {
             if (bindings[i].action == action)
@@ -107,4 +85,40 @@ public class PlayerInputProvider : MonoBehaviour, IInputProvider
     }
     #endregion
 
+    #region ë‚´ë¶€ ë¡œì§
+    // í‚¤ ë°”ì¸ë”©ì´ ë¹„ì–´ìˆì„ ê²½ìš° ê¸°ë³¸ê°’ ì ìš©
+    private void ApplyDefaultBindingsIfEmpty()
+    {
+        if (bindings.Count > 0) return;
+
+        // ì´ë™
+        SetKey(ActionId.MoveUp, BindingSlot.Primary, KeyCode.W);
+        SetKey(ActionId.MoveDown, BindingSlot.Primary, KeyCode.S);
+        SetKey(ActionId.MoveLeft, BindingSlot.Primary, KeyCode.A);
+        SetKey(ActionId.MoveRight, BindingSlot.Primary, KeyCode.D);
+
+        // ë³´ì¡° ì´ë™
+        SetKey(ActionId.MoveUp, BindingSlot.Secondary, KeyCode.UpArrow);
+        SetKey(ActionId.MoveDown, BindingSlot.Secondary, KeyCode.DownArrow);
+        SetKey(ActionId.MoveLeft, BindingSlot.Secondary, KeyCode.LeftArrow);
+        SetKey(ActionId.MoveRight, BindingSlot.Secondary, KeyCode.RightArrow);
+
+        // ìƒí˜¸ì‘ìš©
+        SetKey(ActionId.Interact, BindingSlot.Primary, KeyCode.Space);
+
+        // ëŒ€í™” ë¹¨ë¦¬ê°ê¸°
+        SetKey(ActionId.DialogueFastForward, BindingSlot.Primary, KeyCode.LeftControl);
+
+        // ë©”ë‰´
+        SetKey(ActionId.Menu, BindingSlot.Primary, KeyCode.Escape);
+    }
+
+    // ì¸ìŠ¤í™í„°ì˜ ë°”ì¸ë”© ë¦¬ìŠ¤íŠ¸ë¥¼ ë”•ì…”ë„ˆë¦¬ë¡œ ë³€í™˜
+    private void BuildMap()
+    {
+        map = new Dictionary<ActionId, DualKey>();
+        foreach (var b in bindings)
+            map[b.action] = b.keys;
+    }
+    #endregion
 }

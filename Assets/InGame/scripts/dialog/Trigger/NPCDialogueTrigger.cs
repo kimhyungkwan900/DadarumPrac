@@ -11,7 +11,7 @@ public class DialogueConditionEntry
 }
 
 // NPC 대화 트리거 컴포넌트
-public class NPCDialogueTrigger : MonoBehaviour, IDialogueTrigger
+public class NPCDialogueTrigger : MonoBehaviour, IDialogueTrigger, IInteractable
 {
     [Header("Dialogue Conditions")]
     [SerializeField, Tooltip("위에서 아래 순서로 평가됨")]
@@ -40,6 +40,12 @@ public class NPCDialogueTrigger : MonoBehaviour, IDialogueTrigger
 
         if (dialogueSystemRoot != null)
             dialogueSystemRoot.SetActive(false);
+    }
+
+    // 상호작용 시 대화 시작
+    public void Interact(GameObject interactor)
+    {
+        TriggerDialogue();
     }
 
     // 대화 트리거
