@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class DialogueView : MonoBehaviour, IDialogueView
 {
+    #region 컴포넌트
+
     [Header("Dialogue UI설정")]
     [SerializeField] private Image dialogFrame;
     [SerializeField] private TextMeshProUGUI nameLabel;
@@ -14,12 +16,19 @@ public class DialogueView : MonoBehaviour, IDialogueView
     [Header("Typing")]
     [SerializeField] private float typingSpeed = 0.05f;
 
+    #endregion
+
+    #region 필드
+
     public bool IsTyping { get; private set; }
 
     private Coroutine typingRoutine;
     private string fullTextCache = "";
 
-    // 초기설정
+    #endregion
+
+    #region 초기화
+
     public void Initialize()
     {
         IsTyping = false;
@@ -32,6 +41,10 @@ public class DialogueView : MonoBehaviour, IDialogueView
         if (dialogFrame != null)
             dialogFrame.gameObject.SetActive(true);
     }
+
+    #endregion
+
+    #region 대사 표시
 
     public void ShowLine(DialogueLine line)
     {
@@ -53,7 +66,11 @@ public class DialogueView : MonoBehaviour, IDialogueView
         // 대사 타이핑 시작
         StartTyping(line.dialogue);
     }
-    // 타이핑
+
+    #endregion
+
+    #region 타이핑 효과
+
     private void StartTyping(string fullText)
     {
         fullTextCache = fullText ?? "";
@@ -81,6 +98,8 @@ public class DialogueView : MonoBehaviour, IDialogueView
         IsTyping = false;
         arrow.SetActive(true);
     }
+
+    #endregion
 
     #region 완료 및 숨기기
     public void CompleteTypingImmediately()

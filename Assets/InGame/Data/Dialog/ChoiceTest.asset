@@ -10,15 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ebc0e768b34da4847a71a94933f46e38, type: 3}
-  m_Name: FirstMeetTest
+  m_Name: ChoiceTest
   m_EditorClassIdentifier: 
   autoStart: 1
   initialCharacters:
   - character: {fileID: 11400000, guid: ef19e0a66ec03c24b98a218ba6358208, type: 2}
     position: 0
-    expressionKey: 0
-  - character: {fileID: 11400000, guid: 99304516249c81145b984eaebc4a82e6, type: 2}
-    position: 2
     expressionKey: 0
   lines:
   - character: {fileID: 11400000, guid: ef19e0a66ec03c24b98a218ba6358208, type: 2}
@@ -29,30 +26,20 @@ MonoBehaviour:
     overrideSprite: {fileID: 0}
     focus: 0
     shake: 0
-    dialogue: "\uCCAB\uB9CC\uB0A8 \uD14C\uC2A4\uD2B8\uC785\uB2C8\uB2E4."
-    onLineStart:
-      m_PersistentCalls:
-        m_Calls: []
-    onLineEnd:
-      m_PersistentCalls:
-        m_Calls: []
-    onLineEndEffects:
-    - {fileID: 0}
-  - character: {fileID: 11400000, guid: 99304516249c81145b984eaebc4a82e6, type: 2}
+    dialogue: "\uC120\uD0DD\uC9C0\uB97C \uB4DC\uB9AC\uACA0\uC2B5\uB2C8\uB2E4."
+    onLineStartEffects: []
+    onLineEndEffects: []
+    choiceGroup: {fileID: 11400000, guid: 471ad2ff48cefc145b6f2b6dad487cfb, type: 2}
+  - character: {fileID: 11400000, guid: ef19e0a66ec03c24b98a218ba6358208, type: 2}
     overrideName: 
     presence: 0
-    position: 2
+    position: 0
     expressionKey: 0
     overrideSprite: {fileID: 0}
     focus: 0
     shake: 0
-    dialogue: "\uCCAB\uB9CC\uB0A8 \uD14C\uC2A4\uD2B8\uC785\uB2C8\uB2E4."
-    onLineStart:
-      m_PersistentCalls:
-        m_Calls: []
-    onLineEnd:
-      m_PersistentCalls:
-        m_Calls: []
-    onLineEndEffects:
-    - {fileID: 11400000, guid: 20801f1c597df85449e4a4dfa0e1027c, type: 2}
-  description: "\uCCAB\uB9CC\uB0A8 \uD14C\uC2A4\uD2B8\uC6A9\uC785\uB2C8\uB2E4."
+    dialogue: "\uC120\uD0DD\uC644\uB8CC\uB418\uC5C8\uC2B5\uB2C8\uB2E4."
+    onLineStartEffects: []
+    onLineEndEffects: []
+    choiceGroup: {fileID: 0}
+  description: "\uD638\uAC10\uB3C4 \uD14C\uC2A4\uD2B8\uC785\uB2C8\uB2E4."

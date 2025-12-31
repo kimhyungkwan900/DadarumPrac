@@ -30,12 +30,8 @@ MonoBehaviour:
     focus: 0
     shake: 0
     dialogue: "TestChar01\uC785\uB2C8\uB2E4."
-    onLineStart:
-      m_PersistentCalls:
-        m_Calls: []
-    onLineEnd:
-      m_PersistentCalls:
-        m_Calls: []
+    onLineStartEffects: []
+    onLineEndEffects: []
   - character: {fileID: 11400000, guid: 99304516249c81145b984eaebc4a82e6, type: 2}
     overrideName: 
     presence: 0
@@ -45,12 +41,10 @@ MonoBehaviour:
     focus: 0
     shake: 0
     dialogue: "TestChar02 \uC785\uB2C8\uB2E4."
-    onLineStart:
-      m_PersistentCalls:
-        m_Calls: []
-    onLineEnd:
-      m_PersistentCalls:
-        m_Calls: []
+    onLineStartEffects:
+    - {fileID: 11400000, guid: 900d62755ffe6f842a79e1cd7e6b0ae6, type: 2}
+    onLineEndEffects:
+    - {fileID: 0}
   - character: {fileID: 11400000, guid: ef19e0a66ec03c24b98a218ba6358208, type: 2}
     overrideName: 
     presence: 0
@@ -60,12 +54,8 @@ MonoBehaviour:
     focus: 0
     shake: 0
     dialogue: "TestChar01 Angry \uC785\uB2C8\uB2E4."
-    onLineStart:
-      m_PersistentCalls:
-        m_Calls: []
-    onLineEnd:
-      m_PersistentCalls:
-        m_Calls: []
+    onLineStartEffects: []
+    onLineEndEffects: []
   - character: {fileID: 11400000, guid: 99304516249c81145b984eaebc4a82e6, type: 2}
     overrideName: 
     presence: 0
@@ -75,12 +65,8 @@ MonoBehaviour:
     focus: 0
     shake: 0
     dialogue: "TestChar02 Angry \uC785\uB2C8\uB2E4."
-    onLineStart:
-      m_PersistentCalls:
-        m_Calls: []
-    onLineEnd:
-      m_PersistentCalls:
-        m_Calls: []
+    onLineStartEffects: []
+    onLineEndEffects: []
   - character: {fileID: 11400000, guid: 99304516249c81145b984eaebc4a82e6, type: 2}
     overrideName: "\uBC14\uB010 \uB2C9\uB124\uC784."
     presence: 0
@@ -136,10 +122,6 @@ MonoBehaviour:
       \uAE38\uC774 \uD14C\uC2A4\uD2B8 \uC785\uB2C8\uB2E4.\uCD5C\uB300 \uAE38\uC774
       \uD14C\uC2A4\uD2B8 \uC785\uB2C8\uB2E4.\uCD5C\uB300 \uAE38\uC774 \uD14C\uC2A4\uD2B8
       \uC785\uB2C8\uB2E4."
-    onLineStart:
-      m_PersistentCalls:
-        m_Calls: []
-    onLineEnd:
-      m_PersistentCalls:
-        m_Calls: []
+    onLineStartEffects: []
+    onLineEndEffects: []
   description: "\uD14C\uC2A4\uD2B8\uC6A9\uC785\uB2C8\uB2E4."

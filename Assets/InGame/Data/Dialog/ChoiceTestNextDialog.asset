@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebc0e768b34da4847a71a94933f46e38, type: 3}
+  m_Name: ChoiceTestNextDialog
+  m_EditorClassIdentifier: 
+  autoStart: 1
+  initialCharacters:
+  - character: {fileID: 11400000, guid: ef19e0a66ec03c24b98a218ba6358208, type: 2}
+    position: 0
+    expressionKey: 0
+  lines:
+  - character: {fileID: 11400000, guid: ef19e0a66ec03c24b98a218ba6358208, type: 2}
+    overrideName: 
+    presence: 0
+    position: 0
+    expressionKey: 0
+    overrideSprite: {fileID: 0}
+    focus: 0
+    shake: 0
+    dialogue: "\uC120\uD0DD\uC9C02\uB97C \uACE0\uB974\uC168\uC2B5\uB2C8\uB2E4."
+    onLineStartEffects: []
+    onLineEndEffects: []
+    choiceGroup: {fileID: 0}
+  description: 
