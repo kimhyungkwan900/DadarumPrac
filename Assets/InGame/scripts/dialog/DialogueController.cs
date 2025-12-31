@@ -3,10 +3,16 @@ using UnityEngine;
 
 public class DialogueController : MonoBehaviour, IDialogueController
 {
+    #region 컴포넌트
+
     [Header("컴포넌트")]
     [SerializeField] private DialogueView view;
     [SerializeField] private DialogueCharacterManager characterManager;
     [SerializeField] private ChoiceManager choiceManager;
+
+    #endregion
+
+    #region 필드
 
     private DialogueSO currentDialogue;
     private DialogueLine[] lines;
@@ -17,6 +23,10 @@ public class DialogueController : MonoBehaviour, IDialogueController
     private bool isWaitingForChoice;
 
     private Action onComplete;
+
+    #endregion
+
+    #region 초기화
 
     private void Awake()
     {
@@ -35,8 +45,12 @@ public class DialogueController : MonoBehaviour, IDialogueController
         view?.Initialize();
     }
 
+    #endregion
+
+    #region 대화 시작/종료
+
     // 대화 시작
-    public bool BeginDialogue(DialogueSO dialogue, Action onFinished = null)
+    public bool BeginDialogue(DialogueSO dialogue, Action onComplete = null)
     {
         if (dialogue == null || IsDialogueRunning)
             return false;
@@ -44,11 +58,12 @@ public class DialogueController : MonoBehaviour, IDialogueController
         currentDialogue = dialogue;
         lines = dialogue.lines;
         currentIndex = -1;
-        onComplete = onFinished;
+        this.onComplete = onComplete;
 
         IsDialogueRunning = true;
 
-        view?.Initialize();
+        view.gameObject.SetActive(true);
+        view.Initialize();
 
         if (dialogue.initialCharacters != null && characterManager != null)
         {
@@ -64,6 +79,7 @@ public class DialogueController : MonoBehaviour, IDialogueController
 
         return true;
     }
+
     // 다음 대사 처리
     public void AdvanceDialogue()
     {
@@ -90,15 +106,28 @@ public class DialogueController : MonoBehaviour, IDialogueController
         GoNextOrEnd();
     }
 
-    #region 대화 처리
+    #endregion
+
+    #region 선택지 처리
 
     // 선택지 선택 처리
     private void OnChoiceSelected(ChoiceData choice){
         isWaitingForChoice = false;
 
+        if (choice.dialogue != null){
+            // 새로운 대화로 전환할 때는 onComplete를 호출하지 않고 내부 상태만 리셋
+            ResetDialogueState();
+
+            BeginDialogue(choice.dialogue, onComplete);
+            return;
+        }
+
         GoNextOrEnd();
     }
 
+    #endregion
+
+    #region 대화 진행
 
     // 다음 대사 또는 대화 종료
     private void GoNextOrEnd()
@@ -122,13 +151,23 @@ public class DialogueController : MonoBehaviour, IDialogueController
         EndDialogueInternal();
     }
 
-    // 대화 종료
-    private void EndDialogueInternal()
+    // 대화 상태 리셋 (onComplete 호출 없이 내부 상태만 정리)
+    private void ResetDialogueState()
     {
         IsDialogueRunning = false;
+        isWaitingForChoice = false;
+        currentIndex = -1;
+        currentDialogue = null;
+        lines = null;
 
         view?.HideAll();
         characterManager?.ClearCharacters();
+    }
+
+    // 대화 종료
+    private void EndDialogueInternal()
+    {
+        ResetDialogueState();
 
         onComplete?.Invoke();
         onComplete = null;

@@ -10,6 +10,8 @@ public class ChoiceData
     public List<ConditionSO> conditions;
     [SerializeField] 
     public List<EffectSO> effects;
+    [SerializeField]
+    public DialogueSO dialogue;
 }
 
 [CreateAssetMenu(menuName = "Choice/Choice Group")]

@@ -6,22 +6,35 @@ using TMPro;
 
 public class ChoiceView : MonoBehaviour
 {
+    #region 컴포넌트
+
     [SerializeField] private GameObject choicePanel;
     [SerializeField] private Button choiceButtonPrefab;
     [SerializeField] private Transform choiceButtonContainer;
 
-    private readonly List<Button> choiceButtons = new List<Button>();
+    #endregion
 
+    #region 필드
+
+    private readonly List<Button> choiceButtons = new List<Button>();
     private Action<ChoiceData> onSelected;
+
+    #endregion
+
+    #region 초기화
 
     private void Awake(){
         Hide();
     }
 
-    public void ShowChoices(ChoiceGroupSO choiceGroup, Action<ChoiceData> onChoiceSelected){
+    #endregion
+
+    #region 선택지 표시
+
+    public void ShowChoices(ChoiceGroupSO choiceGroup, Action<ChoiceData> onSelected){
 
         Clear();
-        onSelected = onChoiceSelected;
+        this.onSelected = onSelected;
 
         if (choiceGroup.choices == null || choiceGroup.choices.Count == 0)
         {
@@ -62,10 +75,12 @@ public class ChoiceView : MonoBehaviour
     public void Hide(){
         Clear();
         choicePanel.SetActive(false);
-
     }
 
-    #region 초기화
+    #endregion
+
+    #region 초기화/정리
+
     private void Clear(){
         foreach (var button in choiceButtons){
             Destroy(button.gameObject);
@@ -84,5 +99,6 @@ public class ChoiceView : MonoBehaviour
 
         return true;
     }
+
     #endregion
 }

@@ -4,13 +4,22 @@ using UnityEngine;
 // 씬에 등장하는 캐릭터의 생성, 배치, 연출을 관리합니다.
 public class DialogueCharacterManager : MonoBehaviour
 {
+    #region 컴포넌트
+
     [Header("캐릭터 위치(좌 / 중 / 우)")]
     [SerializeField] private RectTransform leftSlot;
     [SerializeField] private RectTransform centerSlot;
     [SerializeField] private RectTransform rightSlot;
 
-    // 현재 씬에 활성화
+    #endregion
+
+    #region 필드
+
     private readonly Dictionary<CharacterProfileSO, DialogueCharacterUI> activeCharacters = new();
+
+    #endregion
+
+    #region 대사 처리
 
     public void HandleLine(DialogueLine line)
     {
@@ -27,8 +36,11 @@ public class DialogueCharacterManager : MonoBehaviour
             return;
 
         HandleVisuals(line, ui);
-
     }
+
+    #endregion
+
+    #region 캐릭터 생성
 
     private DialogueCharacterUI CreateNewCharacter(CharacterProfileSO profile)
     {
@@ -48,6 +60,10 @@ public class DialogueCharacterManager : MonoBehaviour
         activeCharacters[profile] = ui;
         return ui;
     }
+
+    #endregion
+
+    #region 캐릭터 상태 처리
 
     private void HandlePresence(DialogueLine line, DialogueCharacterUI ui)
     {
@@ -74,6 +90,10 @@ public class DialogueCharacterManager : MonoBehaviour
         ui.SetExpression(line.expressionKey, line.overrideSprite);
         ui.SetFocus(line.focus);
     }
+
+    #endregion
+
+    #region 위치 관리
 
     private void SetPosition(DialogueCharacterUI ui, CharacterPosition pos)
     {
@@ -107,6 +127,10 @@ public class DialogueCharacterManager : MonoBehaviour
         };
     }
 
+    #endregion
+
+    #region 초기화/정리
+
     // Dialogue 시작 시 기본 캐릭터 스폰
     public void SpawnInitial(CharacterProfileSO character, CharacterPosition position, ExpressionKey expressionKey)
     {
@@ -132,4 +156,6 @@ public class DialogueCharacterManager : MonoBehaviour
         }
         activeCharacters.Clear();
     }
+
+    #endregion
 }

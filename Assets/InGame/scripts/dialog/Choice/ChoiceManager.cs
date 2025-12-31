@@ -3,28 +3,42 @@ using UnityEngine;
 
 public class ChoiceManager : MonoBehaviour
 {
-    [Header("Components")]
-    [SerializeField] private ChoiceView choiceView;
+    #region 컴포넌트
 
-    private Action<ChoiceData> onChoiceSelected;
+    [Header("Components")]
+    [SerializeField] private ChoiceView view;
+
+    #endregion
+
+    #region 필드
+
+    private Action<ChoiceData> onSelected;
+
+    #endregion
+
+    #region 선택지 표시
 
     public void ShowChoices(ChoiceGroupSO choiceGroup, Action<ChoiceData> onSelected){
-        if (choiceGroup == null || choiceView == null) return;
+        if (choiceGroup == null || view == null) return;
 
-        onChoiceSelected = onSelected;
+        this.onSelected = onSelected;
 
-        choiceView.ShowChoices(choiceGroup, OnChoiceClicked);
+        view.ShowChoices(choiceGroup, OnChoiceClicked);
     }
+
+    #endregion
+
+    #region 선택지 처리
 
     private void OnChoiceClicked(ChoiceData choice){
         if (choice == null) return;
 
         ExecuteChoice(choice);
 
-        choiceView.Hide();
+        view.Hide();
         
-        onChoiceSelected?.Invoke(choice);
-        onChoiceSelected = null;
+        this.onSelected?.Invoke(choice);
+        this.onSelected = null;
     }
 
     public void ExecuteChoice(ChoiceData choice)
@@ -35,4 +49,6 @@ public class ChoiceManager : MonoBehaviour
             effect?.Apply();
         }
     }
+
+    #endregion
 }

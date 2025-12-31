@@ -15159,7 +15159,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5363328419365db4db87e12384ef590c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  choiceView: {fileID: 1595505611}
+  view: {fileID: 1595505611}
 --- !u!1 &781896649
 GameObject:
   m_ObjectHideFlags: 0
@@ -15568,7 +15568,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1084918931
 Transform:
   m_ObjectHideFlags: 0
@@ -16180,7 +16180,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 40, y: 0}
-  m_SizeDelta: {x: 1280, y: 0}
+  m_SizeDelta: {x: 1280, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1542848792
 MonoBehaviour:

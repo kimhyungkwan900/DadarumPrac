@@ -19,14 +19,18 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 8466b6bc40fcc654d8962a6274b9815d, type: 2}
     effects:
     - {fileID: 11400000, guid: 900d62755ffe6f842a79e1cd7e6b0ae6, type: 2}
+    dialogue: {fileID: 0}
   - text: "\uCCAB\uB9CC\uB0A8 \uC120\uD0DD\uC9C0\uC785\uB2C8\uB2E4."
     conditions:
     - {fileID: 11400000, guid: b5b5dd632e7314441a08180924007b5d, type: 2}
     effects:
     - {fileID: 11400000, guid: 20801f1c597df85449e4a4dfa0e1027c, type: 2}
+    dialogue: {fileID: 0}
   - text: "\uAE30\uBCF8\uC120\uD0DD\uC9C01\uC785\uB2C8\uB2E4."
     conditions: []
     effects: []
+    dialogue: {fileID: 0}
   - text: "\uAE30\uBCF8\uC120\uD0DD\uC9C02\uC785\uB2C8\uB2E4."
     conditions: []
     effects: []
+    dialogue: {fileID: 11400000, guid: c9d31b47e85889f4c99c761773923130, type: 2}
