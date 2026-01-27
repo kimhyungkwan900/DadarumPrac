@@ -14,7 +14,6 @@ public class SaveData
 
     public Dictionary<string, bool> flags = new();
     public Dictionary<string, int> variables = new();
-
 }
 
 public class SaveManager : MonoBehaviour
@@ -37,7 +36,6 @@ public class SaveManager : MonoBehaviour
             return;
         }
         I = this;
-        DontDestroyOnLoad(gameObject);
     }
 
     #endregion

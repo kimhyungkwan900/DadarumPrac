@@ -1,24 +1,32 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
+using Unity.Cinemachine;
 
 public class SceneFlowService : MonoBehaviour
 {
+    #region ì»´í¬ë„ŒíŠ¸
+    [Header("Optional UX")]
+    [SerializeField] private GameObject loadingUI; // ë¡œë”© UI
+    #endregion
+
+    #region í•„ë“œ
     public static SceneFlowService Instance { get; private set; }
 
-    [Header("Optional UX")]
-    [SerializeField] private GameObject loadingUI; // ³ªÁß¿¡ ¿¬°á
-
-    // ¾À ÀüÈ¯ Áß »óÅÂ
+    // ì”¬ ì „í™˜ ì¤‘ ì—¬ë¶€
     private bool isLoading = false;
 
-    // Àü´Ş¹ŞÀº ÀÌµ¿ Á¤º¸
+    // ì”¬ ì „í™˜ í›„ ì´ë™í•  ë…¸ë“œ ì •ë³´
     private MapNode pendingNode;
     private string pendingSpawnId;
 
-    // ¿ÜºÎ¿¡¼­ ±¸µ¶ °¡´É
+    // ì™¸ë¶€ìš© ì”¬ ì´ë™ ì™„ë£Œ ì´ë²¤íŠ¸
     public event Action<MapNode> OnSceneMoveComplete;
 
+    public GameObject player;
+    #endregion
+
+    #region ì´ˆê¸°í™”
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -28,12 +36,18 @@ public class SceneFlowService : MonoBehaviour
         }
 
         Instance = this;
-        DontDestroyOnLoad(gameObject);
+    }
+    private void Start()
+    {
+        player = FindPlayer();
+        if (player != null)
+            TryCameraTracking(player);
     }
 
-    #region Public API
+    #endregion
 
-    // ¾À ÀÌµ¿ ¿äÃ» (MoveService¸¸ È£ÃâÇÏµµ·Ï ±ÇÀå)
+    #region Public API
+    // ì”¬ ì´ë™ ìš”ì²­ (MoveServiceì—ì„œ í˜¸ì¶œí•˜ë„ë¡ ì„¤ê³„)
     public bool MoveToScene(
         string sceneName,
         string spawnId,
@@ -42,13 +56,13 @@ public class SceneFlowService : MonoBehaviour
     {
         if (isLoading)
         {
-            Debug.LogWarning("[SceneFlowService] ÀÌ¹Ì ¾À ÀüÈ¯ ÁßÀÔ´Ï´Ù.");
+            Debug.LogWarning("[SceneFlowService] ì´ë¯¸ ì”¬ ì „í™˜ ì¤‘ì…ë‹ˆë‹¤.");
             return false;
         }
 
         if (string.IsNullOrEmpty(sceneName))
         {
-            Debug.LogWarning("[SceneFlowService] sceneNameÀÌ ºñ¾î ÀÖ½À´Ï´Ù.");
+            Debug.LogWarning("[SceneFlowService] sceneNameì´ ë¹„ì–´ ìˆìŠµë‹ˆë‹¤.");
             return false;
         }
 
@@ -56,7 +70,7 @@ public class SceneFlowService : MonoBehaviour
         pendingNode = arrivedNode;
         pendingSpawnId = spawnId;
 
-        // UX Ã³¸®
+        // UX ì²˜ë¦¬
         if (loadingUI != null)
             loadingUI.SetActive(true);
 
@@ -65,30 +79,24 @@ public class SceneFlowService : MonoBehaviour
 
         return true;
     }
-
     #endregion
 
     #region Internal
-
+    // ì”¬ ë¡œë“œ ì™„ë£Œ ì‹œ í˜¸ì¶œ
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
 
-        // Player Ã£±â
-        var player = GameObject.FindGameObjectWithTag("Player");
-        if (player == null)
-        {
-            Debug.LogWarning("[SceneFlowService] Player¸¦ Ã£Áö ¸øÇß½À´Ï´Ù.");
-            Finish();
-            return;
-        }
+        player = FindPlayer();
+        if (player != null)
+            TryCameraTracking(player);
 
-        // Spawn Ã³¸® (SpawnRegistry »ç¿ë)
+        // ìŠ¤í° ìœ„ì¹˜ ì²˜ë¦¬
         if (!string.IsNullOrEmpty(pendingSpawnId))
         {
             if (SpawnRegistry.Instance == null)
             {
-                Debug.LogWarning("[SceneFlowService] SpawnRegistry°¡ ¾ø½À´Ï´Ù.");
+                Debug.LogWarning("[SceneFlowService] SpawnRegistryê°€ ì—†ìŠµë‹ˆë‹¤.");
             }
             else if (SpawnRegistry.Instance.TryGet(pendingSpawnId, out var spawn))
             {
@@ -96,11 +104,11 @@ public class SceneFlowService : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning($"[SceneFlowService] SpawnId¸¦ Ã£Áö ¸øÇÔ: {pendingSpawnId}");
+                Debug.LogWarning($"[SceneFlowService] SpawnIdë¥¼ ì°¾ì§€ ëª»í•¨: {pendingSpawnId}");
             }
         }
 
-        // ÇöÀç ¸Ê »óÅÂ ¹İ¿µ
+        // í˜„ì¬ ë§µ ë…¸ë“œ ì •ë³´ ë°˜ì˜
         if (MoveService.Instance != null)
         {
             MoveService.Instance.SetCurrentMapNode(pendingNode);
@@ -109,7 +117,7 @@ public class SceneFlowService : MonoBehaviour
         Finish();
     }
 
-
+    // ì”¬ ì „í™˜ ì ˆì°¨ ë§ˆë¬´ë¦¬
     private void Finish()
     {
         isLoading = false;
@@ -122,6 +130,28 @@ public class SceneFlowService : MonoBehaviour
         pendingNode = null;
         pendingSpawnId = null;
     }
+    #endregion
 
+    #region ìœ í‹¸
+    private GameObject FindPlayer()
+    {
+        var p = GameObject.FindGameObjectWithTag("Player");
+        if (p == null)
+        {
+            Debug.LogWarning("[SceneFlowService] Playerë¥¼ ì°¾ì§€ ëª»í–ˆìŠµë‹ˆë‹¤.");
+        }
+        return p;
+    }
+
+    private void TryCameraTracking(GameObject player)
+    {
+
+        var cineCam = FindFirstObjectByType<CinemachineCamera>();
+        if (cineCam != null)
+        {
+            cineCam.Follow = player.transform;
+            cineCam.LookAt = player.transform;
+        }
+    }
     #endregion
 }

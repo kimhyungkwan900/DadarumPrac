@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 317a453e6b6183349a606c5fdc7243ef, type: 3}
+  m_Name: TestOtherScene
+  m_EditorClassIdentifier: 
+  mapId: TestOtherScene
+  displayName: "\uC678\uBD80 \uC52C"
+  connectedMaps:
+  - {fileID: 11400000, guid: 80d06151b30d0e04db4e5be5a9224161, type: 2}
+  - {fileID: 11400000, guid: 7166b225f101f2e49a275dc7491ec220, type: 2}

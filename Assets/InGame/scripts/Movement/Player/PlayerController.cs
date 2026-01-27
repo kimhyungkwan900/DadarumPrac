@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         movement = GetComponent<PlayerMovement>();
+        DontDestroyOnLoad(gameObject);
     }
 
     private void FixedUpdate()

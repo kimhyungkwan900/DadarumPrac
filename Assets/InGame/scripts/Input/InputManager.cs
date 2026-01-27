@@ -53,7 +53,6 @@ public class InputManager : MonoBehaviour
             return;
         }
         Instance = this;
-        DontDestroyOnLoad(gameObject);
 
         BuildContextActionMap();
         ApplyContext(CurrentContext);

@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 317a453e6b6183349a606c5fdc7243ef, type: 3}
   m_Name: TestStartZone2
   m_EditorClassIdentifier: 
-  mapId: TestZone2
+  mapId: TestZone2ToTest
   displayName: "\uD14C\uC2A4\uD2B8\uC8742"
   connectedMaps:
   - {fileID: 11400000, guid: 5c359dee9f9db0e479a0d7978892301d, type: 2}
+  - {fileID: 11400000, guid: 7b7ddf4a2f317b745b732473316bb5c5, type: 2}

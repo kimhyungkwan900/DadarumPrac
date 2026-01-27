@@ -8,5 +8,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/InGame/Scean/Movement.unity
     guid: 087f55b6e07a8a84e87fdcd556c98657
+  - enabled: 1
+    path: Assets/InGame/Scean/OtherMoveScene.unity
+    guid: f1c8652c5474b68468099fa4b3a075a5
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

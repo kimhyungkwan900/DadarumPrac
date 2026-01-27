@@ -28,7 +28,6 @@ public class EnergyManager : MonoBehaviour
             return;
         }
         Instance = this;
-        DontDestroyOnLoad(gameObject);
     }
     #endregion
 

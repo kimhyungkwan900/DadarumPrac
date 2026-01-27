@@ -15,3 +15,6 @@ MonoBehaviour:
   destinations:
   - {fileID: 11400000, guid: 0c124cd205a9d144b880f8faa70255b5, type: 2}
   - {fileID: 11400000, guid: 69e56a983e1b1d44883754fbdb093bcc, type: 2}
+  - {fileID: 11400000, guid: e6a80b80b1ab2c94d812450c4be283b1, type: 2}
+  - {fileID: 11400000, guid: b6d85b5ad1a6e784aa24c8b5889478c2, type: 2}
+  - {fileID: 11400000, guid: 7ebabb1e9ce71634bb7a414af36ce4dc, type: 2}
