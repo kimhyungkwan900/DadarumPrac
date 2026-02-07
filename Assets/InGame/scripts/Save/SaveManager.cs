@@ -12,8 +12,9 @@ public class SaveData
     public string currentScene;
     public Vector3 playerPosition;
 
-    public Dictionary<string, bool> flags = new();
-    public Dictionary<string, int> variables = new();
+    public Dictionary<string, int> items = new();       // 아이템 수량
+    public Dictionary<string, bool> flags = new();      // 플래그
+    public Dictionary<string, int> variables = new();   // 변수
 }
 
 public class SaveManager : MonoBehaviour
@@ -45,6 +46,7 @@ public class SaveManager : MonoBehaviour
     // 새 게임 시작 시 데이터 초기화
     public void NewGame()
     {
+        Data.items.Clear();
         Data.flags.Clear();
         Data.variables.Clear();
         // TODO: 게임 초기 설정
@@ -94,43 +96,10 @@ public class SaveManager : MonoBehaviour
     #region Item 관리
 
     // 아이템 수량 반환
-    public int GetItemCount(string itemKey) => GetVar($"item_{itemKey}");
+    public int GetItemCount(string itemKey) => Data.items.TryGetValue(itemKey, out var v) ? v : 0;
 
     // 아이템 수량 설정 및 flag 자동 업데이트
-    public void SetItemCount(string itemKey, int count, int threshold = 0, string flagKey = null)
-    {
-        SetVar($"item_{itemKey}", count);
-        
-        if (threshold > 0)
-        {
-            UpdateItemFlag(itemKey, threshold, flagKey);
-        }
-    }
-
-    // 아이템 수량 추가 및 flag 자동 업데이트
-    public void AddItemCount(string itemKey, int delta, int threshold = 0, string flagKey = null)
-    {
-        int newCount = GetItemCount(itemKey) + delta;
-        SetItemCount(itemKey, newCount, threshold, flagKey);
-    }
-
-    // 아이템 수량이 threshold 이상인지 확인
-    public bool HasEnoughItem(string itemKey, int threshold)
-    {
-        return GetItemCount(itemKey) >= threshold;
-    }
-
-    // 아이템 수량에 따라 flag 업데이트
-    private void UpdateItemFlag(string itemKey, int threshold, string flagKey = null)
-    {
-        if (string.IsNullOrEmpty(flagKey))
-        {
-            flagKey = $"has_enough_{itemKey}";
-        }
-
-        bool hasEnough = HasEnoughItem(itemKey, threshold);
-        SetFlag(flagKey, hasEnough);
-    }
-
+    public void SetItemCount(string itemKey, int count) => Data.items[itemKey] = count;
+    
     #endregion
 }

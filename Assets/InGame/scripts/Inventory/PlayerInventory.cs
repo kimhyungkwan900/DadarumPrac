@@ -1,4 +1,4 @@
-using UnityEngine;
+/*using UnityEngine;
 
 public class PlayerInventory
 {
@@ -24,4 +24,4 @@ public class PlayerInventory
         _save.SetVar(Key(itemKey), Count(itemKey) - amount);
         return true;
     }
-}
+}*/
